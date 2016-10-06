@@ -20,6 +20,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+
 		<!-- Spring framework from http://projects.spring.io/spring-framework/ -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -27,12 +33,13 @@
 			<version>4.3.3.RELEASE</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/aspectj/aspectjrt -->
+		<!-- https://mvnrepository.com/artifact/aspectj/aspectjweaver -->
 		<dependency>
 			<groupId>aspectj</groupId>
-			<artifactId>aspectjrt</artifactId>
-			<version>1.5.3</version>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.5.4</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/aopalliance/aopalliance -->
 		<dependency>
@@ -62,6 +69,6 @@
 			<version>4.3.3.RELEASE</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/br.com.objectos/multimaps -->
-		
+
 	</dependencies>
 </project>
