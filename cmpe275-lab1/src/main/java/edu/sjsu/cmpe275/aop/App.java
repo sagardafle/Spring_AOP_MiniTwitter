@@ -31,7 +31,7 @@ public class App
        
        tweetstatsimplementation = (TweetStats) applnctxt.getBean("tweetStatsImpl");
       
-       tweetstatsimplementation.getLengthOfLongestTweet();
+       System.out.println("LONGEST TWEET LENGTH "+tweetstatsimplementation.getLengthOfLongestTweet());
        tweetstatsimplementation.getMostActiveFollower();
        tweetstatsimplementation.getMostProductiveUser();
     }

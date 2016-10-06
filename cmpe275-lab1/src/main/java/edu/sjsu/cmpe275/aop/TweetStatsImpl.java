@@ -3,7 +3,7 @@ import edu.sjsu.cmpe275.aop.TweetStats;
 
 public class TweetStatsImpl implements TweetStats {
 	
-	public int lengthOfLongestTweet = 0;
+	public static int lengthOfLongestTweet = 0;
 	public String mostActiveFollower = "";
 	public String mostProductiveUser = "";
 

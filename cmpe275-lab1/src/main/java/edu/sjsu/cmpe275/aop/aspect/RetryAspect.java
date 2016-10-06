@@ -28,9 +28,6 @@ public class RetryAspect {
 	private static int retryTweetMethod = 0;
 	// variable to maintain a retry follow counter.
 	private static int retryFollowMethod = 0;
-	// variable to keep a track of the max length of a successfully tweeted
-	// message.
-	private static int maxTweetLength = 0;
 
 	// variables to store the arguments from the tweet method.
 	private String username = "";
@@ -43,31 +40,6 @@ public class RetryAspect {
 	// Error types
 	private static final String IOException = "java.io.IOException";
 	private static final String IllegalArgumentException = "java.lang.IllegalArgumentException";
-
-	// Declare a TreeMap to store the user-tweets message.
-	private TreeMap<String, ArrayList<String>> userMessagesMap = new TreeMap<String, ArrayList<String>>();
-	// ArrayList to store the user tweet messages.
-	ArrayList<String> messagelist = new ArrayList<String>();
-
-	@After("execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))")
-	public void tweetTheMessage(JoinPoint joinPoint) throws IOException {
-		System.out.println("IN the tweetTheMessage");
-		applnctxt = new ClassPathXmlApplicationContext("aop-bean.xml");
-		tweetservicectxt = (TweetService) applnctxt.getBean("tweetServiceImpl", TweetService.class);
-		System.out.println("Inside retry aspect");
-		username = (String) joinPoint.getArgs()[0];
-		userMessage = (String) joinPoint.getArgs()[1];
-		/**
-		 * add the username,message to the hashmap
-		 */
-		// if(!userMessagesMap.containsKey(username)){
-		// messagelist.clear();
-		// }
-		messagelist.add(userMessage);
-		userMessagesMap.put(username, messagelist);
-		printHashMap(userMessagesMap);
-
-	}
 
 	/**
 	 * After Throwing implementation for the tweet message. This will retry the
@@ -121,21 +93,6 @@ public class RetryAspect {
 				System.out.println("INFO : Maximum re-tries attempt (" + (retryFollowMethod - 1)
 						+ ") to execute the follow message has been reached.");
 			}
-		}
-
-	}
-
-	public static void printHashMap(TreeMap<String, ArrayList<String>> usertweeetshm) {
-		Iterator it = usertweeetshm.entrySet().iterator();
-		while (it.hasNext()) {
-			Map.Entry pair = (Map.Entry) it.next();
-			System.out.println(pair.getKey() + " = " + pair.getValue());
-			for (String individualtweet : (ArrayList<String>) pair.getValue()) {
-				if (individualtweet.length() > maxTweetLength) {
-					maxTweetLength = individualtweet.length();
-				}
-			}
-			it.remove(); // avoids a ConcurrentModificationException
 		}
 
 	}
