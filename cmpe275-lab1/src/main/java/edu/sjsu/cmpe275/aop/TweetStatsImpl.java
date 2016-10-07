@@ -13,24 +13,23 @@ public class TweetStatsImpl implements TweetStats {
 	public static int lengthOfLongestTweet = 0;
 	public static String mostActiveFollower = "";
 	public static String mostProductiveUser = "";
-	// // Declare a TreeMap to store the user-tweets message.
-	// public static TreeMap<String, ArrayList<String>> userMessagesMap = new
-	// TreeMap<String, ArrayList<String>>();
-	// // ArrayList to store the user tweet messages.
-	// public static ArrayList<String> messagelist = new ArrayList<String>();
 
-	// Declare a HashMap to keep a track of the length of the total messages
+	// Declare a TreeMap to keep a track of the length of the total messages
 	// tweeted by each user.
 	public static Map<String, Integer> mostProductiveUserMap = new TreeMap<String, Integer>();
+	
+	//A treemap to keep track of the most active follower.
+	public static Map<String, Integer> mostActiveFollowerUserMap = new TreeMap<String, Integer>();
 
 	@Override
 	public void resetStats() {
 		// TODO Auto-generated method stub
 		lengthOfLongestTweet = 0; // resets the counter for the length of the
 									// longest Tweet.
+		if(mostActiveFollowerUserMap.size()!=0)mostActiveFollowerUserMap.clear();
 		mostActiveFollower = ""; // resets the counter for the most active
 									// follower.
-		mostProductiveUserMap.clear();
+		if(mostProductiveUserMap.size()!=0)mostProductiveUserMap.clear();
 		mostProductiveUser = ""; // resets the counter for the most productive
 									// user.
 	}
@@ -49,7 +48,7 @@ public class TweetStatsImpl implements TweetStats {
 
 	@Override
 	public String getMostProductiveUser() {
-		// TODO Auto-generated method stub
+		System.out.println("Inside TweetStatsImpl getMostProductiveUser");
 		return mostProductiveUser;
 	}
 
