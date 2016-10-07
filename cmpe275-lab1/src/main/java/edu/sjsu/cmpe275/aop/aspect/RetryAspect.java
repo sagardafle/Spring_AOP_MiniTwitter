@@ -47,6 +47,7 @@ public class RetryAspect {
 	 */
 	@AfterThrowing(pointcut = "execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))", throwing = "error")
 	public void retryTweet(JoinPoint joinPoint, Throwable error) throws IOException {
+		System.out.println("AOP retryTweet called");
 		applnctxt = new ClassPathXmlApplicationContext("aop-bean.xml");
 		tweetservicectxt = (TweetService) applnctxt.getBean("tweetServiceImpl", TweetService.class);
 		System.out.println("Inside retry aspect");
@@ -57,9 +58,9 @@ public class RetryAspect {
 		if (error.toString().equals(IOException)) {
 			System.out.println("IO Exception occured " + error);
 			retryTweetMethod += 1;
-			System.out.println("Inside the IF");
+			System.out.println("Inside the IF of retrytweet");
 			if (retryTweetMethod <= 2) {
-				System.out.println("Retrycounter= " + retryTweetMethod);
+				System.out.println(" retryTweetMethod Counter= " + retryTweetMethod);
 				tweetservicectxt.tweet(username, userMessage);
 			} else {
 				System.out.println("INFO : Maximum re-tries attempt (" + (retryTweetMethod - 1)
@@ -91,10 +92,8 @@ public class RetryAspect {
 				tweetservicectxt.follow(userFollower, userFollowee);
 			} else {
 				System.out.println("INFO : Maximum re-tries attempt (" + (retryFollowMethod - 1)
-						+ ") to execute the follow message has been reached.");
-			}
+						+ ") to execute the follow message has been reached.");	
 		}
-
 	}
-
+	}
 }

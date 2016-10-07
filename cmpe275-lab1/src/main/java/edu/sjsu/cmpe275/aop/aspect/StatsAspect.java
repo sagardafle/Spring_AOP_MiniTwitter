@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.context.ApplicationContext;
@@ -26,10 +27,13 @@ public class StatsAspect {
 	private String username = "";
 	private String userMessage = "";
 
-	//variables to store the arguments from the follow method.
-	private String follower ="";
-	private String followee ="";
-	
+	// variables to store the arguments from the follow method.
+	private String follower = "";
+	private String followee = "";
+
+	// Error types
+	private static final String IOException = "java.io.IOException";
+	private static final String IllegalArgumentException = "java.lang.IllegalArgumentException";
 
 	@AfterReturning("execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))")
 	public void tweetTheMessage(JoinPoint joinPoint) throws IOException {
@@ -45,14 +49,14 @@ public class StatsAspect {
 		if (userMessage.length() > TweetStatsImpl.lengthOfLongestTweet && userMessage.length() <= 140) {
 			TweetStatsImpl.lengthOfLongestTweet = userMessage.length();
 		}
-		
+
 		/**
 		 * DONE- TASK-1.
-		 */		
-		
+		 */
+
 		/**
-		 * TASK -2 : Computing most productive user . 
-		 * Add the tweet data to the mostProductiveUserMap
+		 * TASK -2 : Computing most productive user . Add the tweet data to the
+		 * mostProductiveUserMap
 		 */
 		if (TweetStatsImpl.mostProductiveUserMap.containsKey(username)) {
 			TweetStatsImpl.mostProductiveUserMap.put(username,
@@ -60,24 +64,24 @@ public class StatsAspect {
 		} else {
 			TweetStatsImpl.mostProductiveUserMap.put(username, userMessage.length());
 		}
-		
+
 		/**
 		 * DONE -- TASK 2. adding the tweet data to the mostProductiveUserMap
 		 */
 	}
-	
+
 	@AfterReturning("execution(public * edu.sjsu.cmpe275.aop.TweetServiceImpl.follow(..))")
 	public void followTheUser(JoinPoint joinPoint) throws IOException {
 		/**
-		 * TASK-1 : Computing the most productive user.
-		 * Add the tweet data to mostActiveFollowerUserMap.
+		 * TASK-1 : Computing the most follower user. Add the tweet data to
+		 * mostActiveFollowerUserMap.
 		 */
-		
+
 		applnctxt = new ClassPathXmlApplicationContext("aop-bean.xml");
 		applnctxt.getBean("tweetServiceImpl", TweetService.class);
 		follower = (String) joinPoint.getArgs()[0];
 		followee = (String) joinPoint.getArgs()[1];
-		
+
 		if (TweetStatsImpl.mostActiveFollowerUserMap.containsKey(follower)) {
 			TweetStatsImpl.mostActiveFollowerUserMap.put(follower,
 					(TweetStatsImpl.mostActiveFollowerUserMap.get(follower) + 1));
@@ -85,22 +89,42 @@ public class StatsAspect {
 			TweetStatsImpl.mostActiveFollowerUserMap.put(follower, 1);
 		}
 		/**
-		 * DONE- TASK-2.
+		 * DONE- TASK-1.
 		 */
 	}
-	
-//	@Before("execution(public * edu.sjsu.cmpe275.aop.TweetStatsImpl.resetStats(..))")
-//	public void resetAllUserStats() {
-//		
-//	}
+
+	@AfterThrowing(pointcut = "execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.follow(..))", throwing = "error")
+	public void followTheUserAfterFailure(JoinPoint joinPoint, Throwable error) throws IOException {
+		System.out.println("Inside the aspect method -- followTheUserAfterFailure");
+		applnctxt = new ClassPathXmlApplicationContext("aop-bean.xml");
+		applnctxt.getBean("tweetServiceImpl", TweetService.class);
+		follower = (String) joinPoint.getArgs()[0];
+		followee = (String) joinPoint.getArgs()[1];
+		if (error.toString().equals(IOException) || error.toString().equals(IllegalArgumentException)) {
+			// if any of the above two errors have occurred, add the follow
+			// method data to map.
+			if (TweetStatsImpl.mostActiveFollowerUserMap.containsKey(follower)) {
+				TweetStatsImpl.mostActiveFollowerUserMap.put(follower,
+						(TweetStatsImpl.mostActiveFollowerUserMap.get(follower) + 1));
+			} else {
+				TweetStatsImpl.mostActiveFollowerUserMap.put(follower, 1);
+			}
+		}
+	}
+
+	// @Before("execution(public *
+	// edu.sjsu.cmpe275.aop.TweetStatsImpl.resetStats(..))")
+	// public void resetAllUserStats() {
+	//
+	// }
 
 	@Before("execution(public * edu.sjsu.cmpe275.aop.TweetStatsImpl.getMostProductiveUser(..))")
 	public void getTheMostProductiveUser() {
-		System.out.println("Inside the aspect method -- getTheMostProductiveUser");		
+		System.out.println("Inside the aspect method -- getTheMostProductiveUser");
 		/**
-		 * Computing the most productive user 
+		 * Computing the most productive user
 		 */
-		
+
 		int maxTweetLengthInMap = (Collections.max(TweetStatsImpl.mostProductiveUserMap.values())); // to
 		// fetch
 		// the max
@@ -119,17 +143,17 @@ public class StatsAspect {
 						// alphabetical order in the case of clash.
 			}
 		}
-		
+
 		/**
 		 * Done -- Computing the most productive user.
 		 */
 		printTreeMap(TweetStatsImpl.mostProductiveUserMap);
 	}
-	
+
 	@Before("execution(public * edu.sjsu.cmpe275.aop.TweetStatsImpl.getMostActiveFollower(..))")
 	public void getTheMostActiveFollower() {
 		System.out.println("Inside the aspect method -- getTheMostActiveFollower");
-		
+
 		int maxActiveFollowerCountInMap = (Collections.max(TweetStatsImpl.mostActiveFollowerUserMap.values())); // to
 		// fetch
 		// the max

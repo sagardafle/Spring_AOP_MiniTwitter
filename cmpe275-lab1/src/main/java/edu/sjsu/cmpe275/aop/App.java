@@ -16,6 +16,7 @@ public class App {
 	private static TweetStats tweetstatsimplementation;
 
 	public static void main(String[] args) throws IllegalArgumentException, IOException {
+		try{
 		applnctxt = new ClassPathXmlApplicationContext("aop-bean.xml");
 		tweetserviceimplementation = (TweetService) applnctxt.getBean("tweetServiceImpl");
 		tweetstatsimplementation = (TweetStats) applnctxt.getBean("tweetStatsImpl");
@@ -46,5 +47,8 @@ public class App {
 		System.out.println("LONGEST TWEET LENGTH " + tweetstatsimplementation.getLengthOfLongestTweet());
 		System.out.println("Most Productive User is " + tweetstatsimplementation.getMostProductiveUser());
 		System.out.println("Most Active Follower is " + tweetstatsimplementation.getMostActiveFollower());
+		} catch (Exception e){
+			System.out.println("Main ne throw feka re baba !!!");
+		}
 	}
 }
