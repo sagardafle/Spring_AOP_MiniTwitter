@@ -39,7 +39,7 @@ public class RetryAspect {
 	// variable to maintain a retry follow counter.
 	private static int retryFollowMethod = 0;
 
-	public static boolean tempBool = true;
+	// public static boolean tempBool = true;
 	// variables to store the arguments from the tweet method.
 	private String username = "";
 	private String userMessage = "";
@@ -53,106 +53,118 @@ public class RetryAspect {
 	private static final String IllegalArgumentException = "java.lang.IllegalArgumentException";
 
 	/**
-	 *  After Throwing implementation for the tweet message. 
-	 *  This will retry the tweet message maximum 2 times after the failure.
+	 * After Throwing implementation for the tweet message. This will retry the
+	 * tweet message maximum 2 times after the failure.
 	 *
-	 * @param  joinPoint A JoinPoint for getting details about a point in the exectuon of program.
-	 * @param  error The error object from the target class.
-	 * @throws IOException  Incase the twweet method throws another exception.
+	 * @param joinPoint
+	 *            A JoinPoint for getting details about a point in the execution
+	 *            of program.
+	 * @param error
+	 *            The error object from the target class.
+	 * @throws IOException
+	 *             Incase the tweeet method throws another exception.
 	 * 
 	 */
-	 @AfterThrowing(pointcut = "execution(public void  edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))", throwing = "error")
-	 public void retryTweet(JoinPoint joinPoint, Throwable error) throws IOException {
-	 try {
-	 System.out.println("AOP retryTweet called");
-	 applnctxt = new ClassPathXmlApplicationContext("context.xml");
-	 tweetservicectxt = (TweetService) applnctxt.getBean("tweetService",
-	 TweetService.class);
-	
-	 System.out.println("Inside retry aspect --retryTweet method");
-	 username = (String) joinPoint.getArgs()[0];
-	 userMessage = (String) joinPoint.getArgs()[1];
-	 if (error.toString().equals(IOException)) {
-	 System.out.println("IO Exception occured " + error);
-	 retryTweetMethod -= 1;
-	 System.out.println("Inside the IF of retrytweet");
-	 if (retryTweetMethod >= 0) {
-	 System.out.println("retryTweetMethod Counter= " + retryTweetMethod);
-	 tweetservicectxt.tweet(username, userMessage);
-	 } else {
-		 retryTweetMethod = 2;
-	 System.out.println("INFO : Maximum re-tries attempt (" +
-	 (retryTweetMethod )
-	 + ") to execute the tweet message has been reached.");
-	 
-	 }
-	 } else if (error.toString().equals(IllegalArgumentException)) {
-	 System.out.println("ERROR: Your message length is " +
-	 userMessage.length()
-	 + " characters ,which cannot be greater than 140 error. Throwing error :"
-	 + error);
-	 }
-	 } catch (IOException error1) {
-	 System.out.println("Exception caught in the tweet aspect !! " +
-	 error1.getClass());
-	 }
-	
-	 }
+	@AfterThrowing(pointcut = "execution(public void  edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))", throwing = "error")
+	public void retryTweet(JoinPoint joinPoint, Throwable error) throws IOException {
+		try {
+			System.out.println("AOP retryTweet called");
+			applnctxt = new ClassPathXmlApplicationContext("context.xml");
+			tweetservicectxt = (TweetService) applnctxt.getBean("tweetService", TweetService.class);
 
-//	@Around("execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))")
-//	public Object handletweearound(ProceedingJoinPoint joinPoint) throws Throwable {
-//		Object result = null;
-//		try {
-//			// joinPoint.
-//			applnctxt = new ClassPathXmlApplicationContext("context.xml");
-//			tweetservicectxt = (TweetService) applnctxt.getBean("tweetService", TweetService.class);
-//			result = joinPoint.proceed();
-//
-//			System.out.println("... Running after advice...");
-//			// tempBool = true;
-//			return result;
-//		} catch (Exception error) {
-//			// tempBool = false;
-//			if (error.toString().equals(IOException)) {
-//				tempBool = false;
-//				// try{
-//				System.out.println("IO Exception occured " + error);
-//				retryTweetMethod -= 1;
-//				System.out.println("Inside the IF of retrytweet");
-//				if (retryTweetMethod >= 0) {
-//					System.out.println("retryTweetMethod Counter= " + retryTweetMethod);
-//					// joinPoint.proceed();
-//					((TweetService) joinPoint.getThis()).tweet(joinPoint.getArgs()[0].toString(), joinPoint.getArgs()[1].toString());
-//					//tweetservicectxt.tweet(joinPoint.getArgs()[0].toString(), joinPoint.getArgs()[1].toString());
-//				} else {
-//					tempBool = false;
-//					retryTweetMethod = 2;
-//					System.out.println("ERROR : Maximum re-tries attempt (" + (retryTweetMethod)
-//							+ ") to execute the tweet message has been reached.");
-//					return error;
-//
-//				}
-//				// } catch(Exception e){
-//				// System.out.println("Caught nested exception via proceed");
-//				// }
-//
-//			} else if (error.toString().equals(IllegalArgumentException)) {
-//				System.out.println("ERROR: Your message length is " + userMessage.length()
-//						+ " characters ,which cannot be greater than 140 error. Throwing error :" + error);
-//			}
-//		}
-//		return joinPoint;
-//	}
-	 
-	 /**
-		 *  After Throwing implementation for the follow message. 
-		 *  This will retry the follow message maximum 2 times after the failure.
-		 *
-		 * @param  joinPoint A JoinPoint for getting details about a point in the execution of program.
-		 * @param  error The error object from the follow target method.
-		 * @throws IOException  In case the follow method throws another exception.
-		 * 
-		 */
+			System.out.println("Inside retry aspect --retryTweet method");
+			username = (String) joinPoint.getArgs()[0];
+			userMessage = (String) joinPoint.getArgs()[1];
+			if (error.toString().equals(IOException)) {
+				System.out.println("IO Exception occured " + error);
+				retryTweetMethod -= 1;
+				System.out.println("Inside the IF of retrytweet");
+				if (retryTweetMethod >= 0) {
+					System.out.println("retryTweetMethod Counter= " + retryTweetMethod);
+					tweetservicectxt.tweet(username, userMessage);
+				} else {
+					retryTweetMethod = 2;
+					System.out.println("INFO : Maximum re-tries attempt (" + (retryTweetMethod)
+							+ ") to execute the tweet message has been reached.");
+
+				}
+			} else if (error.toString().equals(IllegalArgumentException)) {
+				System.out.println("ERROR: Your message length is " + userMessage.length()
+						+ " characters ,which cannot be greater than 140 error. Throwing error :" + error);
+			}
+		} catch (IOException error1) {
+			System.out.println("Exception caught in the tweet aspect !! " + error1.getClass());
+		}
+
+	}
+
+	// @Around("execution(public void
+	// edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))")
+	// public Object handletweearound(ProceedingJoinPoint joinPoint) throws
+	// Throwable {
+	// Object result = null;
+	// try {
+	// // joinPoint.
+	// applnctxt = new ClassPathXmlApplicationContext("context.xml");
+	// tweetservicectxt = (TweetService) applnctxt.getBean("tweetService",
+	// TweetService.class);
+	// result = joinPoint.proceed();
+	//
+	// System.out.println("... Running after advice...");
+	// // tempBool = true;
+	// return result;
+	// } catch (Exception error) {
+	// // tempBool = false;
+	// if (error.toString().equals(IOException)) {
+	// tempBool = false;
+	// // try{
+	// System.out.println("IO Exception occured " + error);
+	// retryTweetMethod -= 1;
+	// System.out.println("Inside the IF of retrytweet");
+	// if (retryTweetMethod >= 0) {
+	// System.out.println("retryTweetMethod Counter= " + retryTweetMethod);
+	// // joinPoint.proceed();
+	// ((TweetService)
+	// joinPoint.getThis()).tweet(joinPoint.getArgs()[0].toString(),
+	// joinPoint.getArgs()[1].toString());
+	// //tweetservicectxt.tweet(joinPoint.getArgs()[0].toString(),
+	// joinPoint.getArgs()[1].toString());
+	// } else {
+	// tempBool = false;
+	// retryTweetMethod = 2;
+	// System.out.println("ERROR : Maximum re-tries attempt (" +
+	// (retryTweetMethod)
+	// + ") to execute the tweet message has been reached.");
+	// return error;
+	//
+	// }
+	// // } catch(Exception e){
+	// // System.out.println("Caught nested exception via proceed");
+	// // }
+	//
+	// } else if (error.toString().equals(IllegalArgumentException)) {
+	// System.out.println("ERROR: Your message length is " +
+	// userMessage.length()
+	// + " characters ,which cannot be greater than 140 error. Throwing error :"
+	// + error);
+	// }
+	// }
+	// return joinPoint;
+	// }
+
+	/**
+	 * After Throwing implementation for the follow message. This will retry the
+	 * follow message maximum 2 times after the failure.
+	 *
+	 * @param joinPoint
+	 *            A JoinPoint for getting details about a point in the execution
+	 *            of program.
+	 * @param error
+	 *            The error object from the follow target method.
+	 * @throws IOException
+	 *             In case the follow method throws another exception.
+	 * 
+	 */
 	@AfterThrowing(pointcut = "execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.follow(..))", throwing = "error")
 	public void retryFollow(JoinPoint joinPoint, Throwable error) throws IOException {
 		applnctxt = new ClassPathXmlApplicationContext("context.xml");
