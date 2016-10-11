@@ -38,9 +38,9 @@ public class TweetStatsImpl implements TweetStats {
 	}
 
 	
-	/* (non-Javadoc)
-	 * @see edu.sjsu.cmpe275.aop.TweetStats#getLengthOfLongestTweet()
-	 * @return  the length of the longest tweet.
+	/* getLengthOfLongestTweet
+	 * Returns the he length of the longest tweet.
+	 * @return  lengthOfLongestTweet. The length of the longest tweet.
 	 */
 	@Override
 	public int getLengthOfLongestTweet() {
@@ -49,9 +49,9 @@ public class TweetStatsImpl implements TweetStats {
 	}
 	
 	
-	/* (non-Javadoc)
-	 * @see edu.sjsu.cmpe275.aop.TweetStats#getMostActiveFollower()
-	 * @return  the most active follower for the Twitter service.
+	/* getMostActiveFollower
+	 * Returns the most active follower for the Twitter service.
+	 * @return mostActiveFollower.Tthe most active follower for the Twitter service.
 	 */
 	@Override
 	public String getMostActiveFollower() {
@@ -60,9 +60,9 @@ public class TweetStatsImpl implements TweetStats {
 	}
 
 	
-	/* (non-Javadoc)
-	 * @see edu.sjsu.cmpe275.aop.TweetStats#getMostProductiveUser()
-	 * @return  the most productive user for the Twitter service.
+	/* getMostProductiveUser
+	 * Returns the most productive user for the Twitter service.
+	 * @return mostProductiveUser. The most productive user for the Twitter service.
 	 */
 	@Override
 	public String getMostProductiveUser() {

@@ -23,10 +23,10 @@ public class TweetServiceImpl implements TweetService {
 		Random rand = new Random();
 		int temp = rand.nextInt(100 / 2);
 		System.out.println("Temp Tweet== " + temp);
-//		if (temp >15) {
-//			///System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~Throwing an IOexception " + temp);
-//			throw new IOException();
-//		} 
+		if (temp >1) {
+			///System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~Throwing an IOexception " + temp);
+			throw new IOException();
+		} 
     	System.out.printf("User %s tweeted message: %s\n", user, message);
     }
 

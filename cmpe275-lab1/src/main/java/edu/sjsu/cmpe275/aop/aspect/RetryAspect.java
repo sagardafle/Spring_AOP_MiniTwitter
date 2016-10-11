@@ -57,10 +57,10 @@ public class RetryAspect {
 	 *  This will retry the tweet message maximum 2 times after the failure.
 	 *
 	 * @param  joinPoint A JoinPoint for getting details about a point in the exectuon of program.
+	 * @param  error The error object from the target class.
 	 * @throws IOException  Incase the twweet method throws another exception.
 	 * 
 	 */
-	
 	 @AfterThrowing(pointcut = "execution(public void  edu.sjsu.cmpe275.aop.TweetServiceImpl.tweet(..))", throwing = "error")
 	 public void retryTweet(JoinPoint joinPoint, Throwable error) throws IOException {
 	 try {
@@ -149,10 +149,10 @@ public class RetryAspect {
 		 *  This will retry the follow message maximum 2 times after the failure.
 		 *
 		 * @param  joinPoint A JoinPoint for getting details about a point in the execution of program.
+		 * @param  error The error object from the follow target method.
 		 * @throws IOException  In case the follow method throws another exception.
 		 * 
 		 */
-
 	@AfterThrowing(pointcut = "execution(public void edu.sjsu.cmpe275.aop.TweetServiceImpl.follow(..))", throwing = "error")
 	public void retryFollow(JoinPoint joinPoint, Throwable error) throws IOException {
 		applnctxt = new ClassPathXmlApplicationContext("context.xml");

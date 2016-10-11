@@ -65,7 +65,7 @@ public class StatsAspect {
 	}
 
 	/**
-	 * @AfterReturning implementation for the tweet message. This will save the
+	 * AfterReturning implementation for the tweet message. This will save the
 	 *                 tweet message in the map. It will compute the length of
 	 *                 the longest tweet, the most productive user .
 	 * @param joinPoint
@@ -111,7 +111,7 @@ public class StatsAspect {
 	}
 
 	/**
-	 * @AfterReturning implementation for the follow message. This will save the
+	 * AfterReturning implementation for the follow message. This will save the
 	 *                 follow message details in the map. It will compute the
 	 *                 most active follower.
 	 * @param joinPoint
@@ -155,6 +155,7 @@ public class StatsAspect {
 	 * @param joinPoint
 	 *            A JoinPoint for getting details about a point in the exectuon
 	 *            of program.
+	 *            @param error The error object from the follow user method.
 	 * @throws IOException
 	 *             Incase the follow method throws another exception.
 	 * 
