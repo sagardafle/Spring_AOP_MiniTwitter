@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: sagardafle.minitwitteraop.cmpe275_lab1.TweetTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.773 sec - in sagardafle.minitwitteraop.cmpe275_lab1.TweetTest

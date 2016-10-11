@@ -1,3 +1,10 @@
+/**
+* The TweetStatsImpl program implements the TweetStats interface.
+* It computes all the tweet stats as per the project requirement.
+*
+* @author  Sagar Dafle 
+*/
+
 package edu.sjsu.cmpe275.aop;
 
 import java.util.ArrayList;
@@ -21,31 +28,42 @@ public class TweetStatsImpl implements TweetStats {
 	//A treemap to keep track of the most active follower.
 	public static Map<String, Integer> mostActiveFollowerUserMap = new TreeMap<String, Integer>();
 
+	/**
+	 * Resets all the stats for the tweetstats functionality.
+	 * This resets the length of the longest Tweet,most active follower and the most productive user.
+	 */
 	@Override
 	public void resetStats() {
-		// TODO Auto-generated method stub
-		lengthOfLongestTweet = 0; // resets the counter for the length of the
-									// longest Tweet.
-		if(mostActiveFollowerUserMap.size()!=0)mostActiveFollowerUserMap.clear();
-		mostActiveFollower = ""; // resets the counter for the most active
-									// follower.
-		if(mostProductiveUserMap.size()!=0)mostProductiveUserMap.clear();
-		mostProductiveUser = ""; // resets the counter for the most productive
-									// user.
+		System.out.println("Resetting all the user stats");
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see edu.sjsu.cmpe275.aop.TweetStats#getLengthOfLongestTweet()
+	 * @return  the length of the longest tweet.
+	 */
 	@Override
 	public int getLengthOfLongestTweet() {
 		// TODO Auto-generated method stub
 		return lengthOfLongestTweet;
 	}
-
+	
+	
+	/* (non-Javadoc)
+	 * @see edu.sjsu.cmpe275.aop.TweetStats#getMostActiveFollower()
+	 * @return  the most active follower for the Twitter service.
+	 */
 	@Override
 	public String getMostActiveFollower() {
 		System.out.println("Inside TweetStatsImpl getMostActiveFollower");
 		return mostActiveFollower;
 	}
 
+	
+	/* (non-Javadoc)
+	 * @see edu.sjsu.cmpe275.aop.TweetStats#getMostProductiveUser()
+	 * @return  the most productive user for the Twitter service.
+	 */
 	@Override
 	public String getMostProductiveUser() {
 		System.out.println("Inside TweetStatsImpl getMostProductiveUser");
